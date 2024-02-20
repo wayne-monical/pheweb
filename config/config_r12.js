@@ -128,12 +128,20 @@ const userInterface = {
   desc: true
 }] } }, 
 	gene: { 
+            geneColocalizations: {},
+            tableOfContentsTitles: {
+	        "associationResults": "Disease associations within gene region",
+	        "geneFunctionalVariants": "Coding variant associations",
+	        "lossOfFunction": "Protein truncating variant burden associations",
+	        "pqtlColocalizations": "pQTL and colocalizations",
+	        "geneDrugs": "Drugs targeting the gene"
+            },
 	    lossOfFunction: { tableColumns :  [{ type : "phenotype" },
 					       { type : "variants" , attributes : { minWidth : 400 } },
 					       { type : "pValue" },
 					       { type : "or" } ] },
 	    lz_config : { ld_panel_version : "sisu42" } ,
-	     pqtlColocalizations : { tableColumns : genePqtlTableColumns }  },
+	     pqtlColocalizations : {}  },
   phenotype: {
       variant : { table : { columns : [ { type : "chrom" },
                                         { type : "pos" },
@@ -151,7 +159,8 @@ const userInterface = {
                                         { type : "or" },
 					{ type : "pValue" },
                                         { type : "mlogp" }
-				      ] }
+				      ] },
+                    r2_to_lead_threshold: 0.6
 		},
     banner: `
     <h2 style="margin-top: 0;">
