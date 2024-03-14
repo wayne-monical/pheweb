@@ -945,7 +945,7 @@ const phenotypeColumns = {
 
     finEnrichmentText:
       {
-        Header: () => (<span title="AF enrichment FIN / Non-Finnish-non-Estonian European"
+        Header: () => (<span title="AF enrichment FIN / Non-Finnish European"
                              style={{ textDecoration: "underline" }}>FIN enrichment</span>),
         accessor: "fin_enrichment",
         filterMethod: numberFilter,
@@ -957,7 +957,7 @@ const phenotypeColumns = {
 
     finEnrichment:
       {
-        Header: () => (<span title="AF enrichment FIN / Non-Finnish-non-Estonian European"
+        Header: () => (<span title="AF enrichment FIN / Non-Finnish European"
                              style={{ textDecoration: "underline" }}>FIN enrichment</span>),
         accessor: "fin_enrichment",
         filterMethod: (filter, row) => row[filter.id] > +filter.value,
