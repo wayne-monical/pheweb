@@ -705,7 +705,7 @@ class TabixGnomadDao(GnomadDB):
                 if ref == variant.ref and alt == variant.alt:
                     for i, s in enumerate(split):
                         if (
-                            (self.headers[i].startswith("AF") or self.headers[i].startswith("enrichment"))
+                            self.headers[i].startswith("AF")
                             and split[i] != "NaN"
                             and split[i] != "NA"
                             and split[i] != "."
