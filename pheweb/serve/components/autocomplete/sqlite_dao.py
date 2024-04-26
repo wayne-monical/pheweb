@@ -86,7 +86,7 @@ class GeneAliasesSqliteDAO:
                 """
             cursor.execute(sql, [gene, gene])
             for row in cursor.fetchall():
-                aliases.update(row["canonicals_comma"].split(","))
+                aliases.add(row["name"])
         return aliases
 
 class AutocompleterSqliteDAO(AutocompleterDAO):
