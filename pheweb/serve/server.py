@@ -6,7 +6,7 @@ from .auth import GoogleSignIn
 from ..version import version as pheweb_version
 from typing import Optional
 from flask import Blueprint
-from text_utils import text_to_boolean
+from ..text_utils import text_to_boolean
 from .data_access.db import Variant
 
 from flask import Flask, jsonify, render_template, request, redirect, abort, flash, current_app, send_from_directory, send_file, session, url_for,make_response
