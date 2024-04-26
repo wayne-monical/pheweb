@@ -80,9 +80,9 @@ class GeneAliasesSqliteDAO:
         aliases=set()
         with closing(self.connection.cursor()) as cursor:
             sql = """
-                SELECT canonicals_comma 
-                FROM gene_aliases 
-                WHERE alias=? or alias=upper(?)
+                SELECT name                                      
+                FROM key_name                                    
+                WHERE key=? or key=upper(?)
                 """
             cursor.execute(sql, [gene, gene])
             for row in cursor.fetchall():
