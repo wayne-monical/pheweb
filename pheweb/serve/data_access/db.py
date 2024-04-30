@@ -1458,7 +1458,7 @@ class TabixAnnotationDao(AnnotationDB):
         if gene_aliases_path is None:
             self._gene_alias_dao=None
         else:
-            self._gene_alias_doa=GeneAliasesSqliteDAO(filepath=gene_aliases_path)
+            self._gene_alias_dao=GeneAliasesSqliteDAO(filepath=gene_aliases_path)
         
         self._default_use_aliases=default_use_aliases
         
