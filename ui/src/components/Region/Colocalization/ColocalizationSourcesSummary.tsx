@@ -9,7 +9,7 @@ import './Colocalization.css'
 
 declare let window: ConfigurationWindow;
 const { config } = window;
-const colocalizationSourceTypes : Array<colocalizationSourceTypeConfiguration>|null = config?.userInterface?.region['colocalizationSourceTypes'] || null;
+const colocalizationSourceTypes : Array<colocalizationSourceTypeConfiguration>|null = config?.userInterface?.region?.colocalizationSourceTypes || null;
 
 
 const ColocalizationSourcesSummary = ( props: {data: Data[], showSourceTypes: boolean}) => {
