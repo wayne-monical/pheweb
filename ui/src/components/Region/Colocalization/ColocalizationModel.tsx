@@ -176,5 +176,5 @@ export interface colocalizationSourceType {
 }
 
 export interface colocalizationSourceTypeConfiguration {
-    region? : { colocalizationSourceTypes? : Array<colocalizationSourceType>}
+    region : Array<colocalizationSourceType>;
 }
