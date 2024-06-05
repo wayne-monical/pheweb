@@ -337,7 +337,9 @@ class ServerJeeves(object):
                         d['data']['fin_enrichment'].append('No gnomAD data')
                     else:
                         g = gnomad_hash[varid]['gnomad']
-                        if 'AF_fin' in g and 'AC_nfe_nwe' in g and 'AC_nfe_onf' in g and 'AC_nfe_seu' in g:
+                        if 'enrichment_nfe' in g:
+                            d['data']['fin_enrichment'].append(g['enrichment_nfe'])
+                        elif 'AF_fin' in g and 'AC_nfe_nwe' in g and 'AC_nfe_onf' in g and 'AC_nfe_seu' in g:
                             if g['AF_fin'] == '.' or float(g['AF_fin']) == 0:
                                 d['data']['fin_enrichment'].append('No FIN in gnomAD')
                             elif float(g['AC_nfe_nwe']) + float(g['AC_nfe_onf']) + float(g['AC_nfe_seu']) == 0:
