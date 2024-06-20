@@ -49,7 +49,7 @@ const ColocalizationSourcesSummary = ( props: {data: Data[], showSourceTypes: bo
         <div className="colocs-summary">
         {
             colocalizationSourceTypes!==null && props.showSourceTypes ? 
-            <div className="colocs-summary-row" > 
+            <div > 
             {
                 sourceSummaryData && colocalizationSourceTypes.map((item, i) => {
                     

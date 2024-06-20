@@ -107,24 +107,26 @@ const userInterface = {
           }
   },
   region: {
-    colocalizationSourceTypes: [
-      {type: "Endpoints/Biomarkers", sources: ["FinnGen", "UKBB"]},
-      {type: "pQTL", sources: ["Somascan", "Olink", "UKBB-PPP"]},
-      {type: "mQTL", sources: ["geneRISK"]},
-      {type: "INTERVAL", sources: ["INTERVAL"]},
-      {type: "eQTL", sources: ["Alasoo_2018","BLUEPRINT",
-                 "Bossini-Castillo_2019",
-                 "BrainSeq","Braineac2","CAP",
-                 "CEDAR","CommonMind","FUSION",
-                 "Fairfax_2012","Fairfax_2014","GENCORD",
-                 "GEUVADIS","GTEx","Gilchrist_2021",
-                 "HipSci","Kasela_2017","Lepik_2017",
-                 "Naranbhai_2015","Nedelec_2016",
-                 "Peng_2018","PhLiPS","Quach_2016","ROSMAP",
-                 "Schmiedel_2018","Schwartzentruber_2018",
-                 "Steinberg_2020","TwinsUK","Young_2019",
-                 "iPSCORE","van_de_Bunt_2015"]}
-    ]
+    colocalization: {
+      colocalizationSourceTypes: [
+        {type: "Endpoints/Biomarkers", sources: ["FinnGen", "UKBB"]},
+        {type: "pQTL", sources: ["Somascan", "Olink", "UKBB-PPP"]},
+        {type: "mQTL", sources: ["geneRISK"]},
+        {type: "INTERVAL", sources: ["INTERVAL"]},
+        {type: "eQTL", sources: ["Alasoo_2018","BLUEPRINT",
+                   "Bossini-Castillo_2019",
+                   "BrainSeq","Braineac2","CAP",
+                   "CEDAR","CommonMind","FUSION",
+                   "Fairfax_2012","Fairfax_2014","GENCORD",
+                   "GEUVADIS","GTEx","Gilchrist_2021",
+                   "HipSci","Kasela_2017","Lepik_2017",
+                   "Naranbhai_2015","Nedelec_2016",
+                   "Peng_2018","PhLiPS","Quach_2016","ROSMAP",
+                   "Schmiedel_2018","Schwartzentruber_2018",
+                   "Steinberg_2020","TwinsUK","Young_2019",
+                   "iPSCORE","van_de_Bunt_2015"]}
+      ]
+    }
   }
 
 }
