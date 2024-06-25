@@ -134,7 +134,7 @@ class AutocompleterMYSQLDAO(AutocompleterDAO, MysqlDAO):
                     ORDER BY length(rsid),rsid DESC 
                     LIMIT  %s
                     """
-                    parameters = [f'{key}%', str(self._limit)]
+                    parameters = [f'{key}%', int(self._limit)]
                     cursor.execute(sql, parameters)
                     rows = cursor.fetchall()
                     for row in rows:
