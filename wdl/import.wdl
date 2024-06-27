@@ -247,7 +247,6 @@ task pheno {
 	# translate manhattan flags
 	String compress_suffix=if compress_manhattan then ".br" else ""
 	String compress_flag=if compress_manhattan then "true" else "false"
-	String annotate_manhattan_command = if annotate_manhattan then "pheweb annotate-manhattan --gnomad_filepath=${gnomad_filepath} --annotation_filepath=${annotation_filepath} --compress=${compress_flag}" else "true"
         Array[String] output_url
 
 	String gz_file = "pheweb/generated-by-pheweb/pheno_gz/${pheno_name}.gz"
@@ -279,13 +278,12 @@ task pheno {
         pheweb phenolist extract-phenocode-from-filepath --simple && \
         pheweb augment-phenos && \
         pheweb manhattan && \
-        ${annotate_manhattan_command} && \
+        ([[ -z "${gnomad_filepath}" ]] || \
+	 [[ -z "${annotation_filepath}" ]] || \
+	 pheweb annotate-manhattan --gnomad_filepath=${gnomad_filepath} --annotation_filepath=${annotation_filepath} --compress=${compress_flag}) && \
 	pheweb qq && \
         pheweb bgzip-phenos &&
         find ./
-        cd .. # move out from pheweb folder so relative paths work
-	# find just to make sure the whole sequence is completed
-	# and you know what you have.
 
         for url in ${sep="\t" output_url}; do
 
@@ -495,17 +493,13 @@ DATA_DIR = './'
 PHENO_JSON = '${pheno_json}'
 CUSTOM_JSON = '${custom_json}'
 print(DATA_DIR,PHENO_JSON)
-
+import brotli
+import glob
 import json,os
 with open(PHENO_JSON) as f:phenolist = json.load(f)
 with open(CUSTOM_JSON) as f: custom_jsons = {elem['phenocode']:elem for elem in json.load(f)}
 fields = "${sep="," fields}".split(",")
 print(fields)
-
-def find(name, path,subpath):
-    for root, dirs, files in os.walk(path):
-        if name in files and subpath in root:
-            return os.path.join(root, name)
 
 final_json = []
 for p_dict in phenolist:
@@ -513,12 +507,14 @@ for p_dict in phenolist:
     pheno = p_dict['phenocode']
     print(pheno,custom_jsons[pheno])
     # FIND QQ PLOT
-    p_qq = find(pheno +".json",DATA_DIR,'qq')
+    p_qq, = glob.glob(f"**/qq/{pheno}.json", recursive=True)
     with open(p_qq) as f: qq = json.load(f)
     # FIND MANAHTTAN PLOT
-    p_m = find(pheno +".json",DATA_DIR,'manhattan')
-    with open(p_m) as f: manha = json.load(f)
-
+    p_m, = glob.glob(f"**/manhattan/{pheno}.json*", recursive=True)
+    if p_m.endswith(".br"):
+       with open(p_m, "rb") as f: manha = json.loads(brotli.decompress(f.read()))
+    else:
+       with open(p_m) as f: manha = json.load(f)
     # UPDATE P_DICT
     p_dict['gc_lambda'] = qq['overall']['gc_lambda']
     p_dict['num_gw_significant'] = len([v for v in manha['unbinned_variants'] if 'peak' in v and v['peak'] == True and float(v['pval']) < 5e-8])
