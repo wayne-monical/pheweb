@@ -248,7 +248,7 @@ task pheno {
 	Boolean compress_manhattan = false
 
 	# translate manhattan flags
-	String compress_suffix=if compress_manhattan then ".br" else ""
+	String compress_suffix=if compress_manhattan then ".gz" else ""
 	String compress_flag=if compress_manhattan then "true" else "false"
         Array[String] output_url
 
@@ -497,6 +497,7 @@ PHENO_JSON = '${pheno_json}'
 CUSTOM_JSON = '${custom_json}'
 print(DATA_DIR,PHENO_JSON)
 import brotli
+import gzip
 import glob
 import json,os
 with open(PHENO_JSON) as f:phenolist = json.load(f)
@@ -516,6 +517,8 @@ for p_dict in phenolist:
     p_m, = glob.glob(f"**/manhattan/{pheno}.json*", recursive=True)
     if p_m.endswith(".br"):
        with open(p_m, "rb") as f: manha = json.loads(brotli.decompress(f.read()))
+    elif p_m.endswith(".gz"):
+       with open(p_m, "rb") as f: manha = json.loads(gzip.decompress(f.read()))
     else:
        with open(p_m) as f: manha = json.load(f)
     # UPDATE P_DICT
