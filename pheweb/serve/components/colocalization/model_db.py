@@ -166,7 +166,7 @@ class ColocalizationDAO(ColocalizationDB):
     def get_phenotype(self,
                       flags: typing.Dict[str, typing.Any]={}) -> typing.List[str]:
         session = self.Session()
-        q = session.query(distinct(Colocalization.phenotype1))
+        q = session.query(distinct(self.model.Colocalization.phenotype1))
         matches = self.support.create_filter(q, flags)
         return PhenotypeList(phenotypes = [r[0] for r in q.all()])
         return phenotype1
