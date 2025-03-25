@@ -10,7 +10,7 @@ import random
 import multiprocessing
 import bisect
 import traceback
-import blist
+#import blist
 
 
 MAX_NUM_FILES_TO_MERGE_AT_ONCE = 8 # I have no idea what's fastest.  Maybe #files / #cpus?
@@ -221,7 +221,8 @@ class VariantListMerger:
     Variants must match EXACTLY.
     '''
     def __init__(self):
-        self._q = blist.blist()
+        #self._q = blist.blist()
+        self._q = list()
         # self._q is like sorted([(key, variant_dict, [reader_id, ...]), ...])
         # key is like (chrom_idx, pos, ref, alt)
 

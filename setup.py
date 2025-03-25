@@ -8,10 +8,22 @@
 
 
 from setuptools import setup
-import imp
 import os.path
+import importlib.util
+import importlib.machinery
 
-version = imp.load_source('pheweb.version', os.path.join('pheweb', 'version.py')).version
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+    # The module is always executed and not cached in sys.modules.
+    # Uncomment the following line to cache the module.
+    # sys.modules[module.__name__] = module
+    loader.exec_module(module)
+    return module
+
+
+version = load_source('pheweb.version', os.path.join('pheweb', 'version.py')).version
 
 setup(
     name='PheWeb',
@@ -58,31 +70,30 @@ setup(
         'google-auth-httplib2~=0.1.1',
         'google-compute-engine~=2.8.13',
         'rauth~=0.7',
-        'pysam~=0.21.0',
-        'marisa-trie~=0.7',
+        'pysam~=0.23.0',
+        'marisa-trie~=1.0',
         'intervaltree~=2.1',
         'tqdm~=4.14',
         'openpyxl~=2.5',
-        'scipy~=1.0',
-        'numpy~=1.14',
+        'scipy~=1.10',
+        'numpy~=1.24',
         'requests[security]~=2.18',
         'cryptography~=3.2',
         'idna~=2.6',
         'gunicorn~=19.7',
         'boltons~=18.0',
-        'blist~=1.3.6',
         'cffi~=1.11',
         'wget~=3.2',
-        'elasticsearch~=6.2.0',
+        'elasticsearch~=8.17.0',
         'latex~=0.7.0',
         'attrs',
-        'pandas~=0.24.2',
+        'pandas~=1.5.3',
         'SQLAlchemy~=1.3.19',
         'PyMySQL>=0.10.1',
         'mysqlclient>=2.0.1',
         'smart_open[gcs]~=5.2.1',
         'prometheus-flask-exporter~=0.23.0',
-        'tiledb==0.18.3',
+        'tiledb~=0.22',
     ],
     dependency_links=[],
     tests_require=[

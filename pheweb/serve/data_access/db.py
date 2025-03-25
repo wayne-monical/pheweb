@@ -13,7 +13,6 @@ import threading
 import pandas as pd
 import numpy as np
 import pymysql
-import imp
 from typing import List, Tuple, Dict, Union, Optional
 from ...file_utils import MatrixReader, common_filepaths
 from ...utils import get_phenolist, get_gene_tuples, pvalue_to_mlogp, get_use_phenocode_pheno_map
@@ -42,6 +41,19 @@ from ..components.autocomplete.sqlite_dao import AutocompleterSqliteDAO
 from ..components.autocomplete.mysql_dao import AutocompleterMYSQLDAO
 from pheweb.serve.data_access.file import FilePathResultDao, ManhattanFileResultDao, ManhattanCompressedResultDao
 
+
+import importlib.util
+import importlib.machinery
+
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+    # The module is always executed and not cached in sys.modules.
+    # Uncomment the following line to cache the module.
+    # sys.modules[module.__name__] = module
+    loader.exec_module(module)
+    return module
 
 from .pqtl_colocalization import PqtlColocalisationDao
 
@@ -1620,7 +1632,7 @@ class TabixAnnotationDao(AnnotationDB):
 class LofMySQLDao(LofDB):
     def __init__(self, authentication_file, table_name="lof"):
         self.authentication_file = authentication_file
-        auth_module = imp.load_source("mysql_auth", self.authentication_file)
+        auth_module = load_source("mysql_auth", self.authentication_file)
         self.user = getattr(auth_module, "mysql")["user"]
         self.password = getattr(auth_module, "mysql")["password"]
         self.host = getattr(auth_module, "mysql")["host"]
@@ -1746,7 +1758,7 @@ class FineMappingMySQLDao(FineMappingDB):
     def __init__(self, authentication_file, base_paths):
         self.authentication_file = authentication_file
         self.base_paths = base_paths
-        auth_module = imp.load_source("mysql_auth", self.authentication_file)
+        auth_module = load_source("mysql_auth", self.authentication_file)
         self.user = getattr(auth_module, "mysql")["user"]
         self.password = getattr(auth_module, "mysql")["password"]
         self.host = getattr(auth_module, "mysql")["host"]
@@ -1851,7 +1863,7 @@ class AutoreportingDao(AutorepVariantDB):
     def __init__(self, authentication_file, group_report_path):
         self.authentication_file = authentication_file
         self.group_report_path = group_report_path
-        auth_module = imp.load_source("mysql_auth", self.authentication_file)
+        auth_module = load_source("mysql_auth", self.authentication_file)
         self.user = getattr(auth_module, "mysql")["user"]
         self.password = getattr(auth_module, "mysql")["password"]
         self.host = getattr(auth_module, "mysql")["host"]

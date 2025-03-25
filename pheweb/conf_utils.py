@@ -1,6 +1,5 @@
 from typing import List
 import os
-import imp
 import itertools
 from collections import OrderedDict, Counter
 from copy import deepcopy
@@ -14,6 +13,20 @@ try:
     from . import utils
 except:
     import utils
+
+import importlib.util
+import importlib.machinery
+
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+    # The module is always executed and not cached in sys.modules.
+    # Uncomment the following line to cache the module.
+    # sys.modules[module.__name__] = module
+    loader.exec_module(module)
+    return module
+
 
 
 def Attrdict():
@@ -160,7 +173,7 @@ def _ensure_conf():
         _config_filepath = os.path.join(conf.data_dir, "config.py")
         if os.path.isfile(_config_filepath):
             try:
-                _conf_module = imp.load_source("config", _config_filepath)
+                _conf_module = load_source("config", _config_filepath)
             except Exception:
                 raise utils.PheWebError(
                     "PheWeb tried to load your config.py at {!r} but it failed.".format(
@@ -174,7 +187,7 @@ def _ensure_conf():
         print(str(conf))
         if conf.authentication:
             try:
-                _auth_module = imp.load_source("config", conf.authentication_file)
+                _auth_module = load_source("config", conf.authentication_file)
             except Exception:
                 raise utils.PheWebError(
                     f"""PheWeb tried to load your authentication file at
