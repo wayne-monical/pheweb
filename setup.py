@@ -87,8 +87,6 @@ setup(
         'gevent',
         'psutil~=5.8',
         'markupsafe==2.0.1',  # flask 1.1 uses jinja 2.x which breaks with markupsafe>2.0.1.  Pinning all deps might be better.
-    ],
-    tests_require=[
-        'pytest~=6.2',
-    ],
+        'pytest~=6.2'
+    ]
 )
