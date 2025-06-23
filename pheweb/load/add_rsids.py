@@ -117,11 +117,16 @@ def run(argv:List[str]) -> None:
         debugging_limit_num_variants = conf.get_debugging_limit_num_variants()
         if debugging_limit_num_variants: rsid_group_reader = itertools.islice(rsid_group_reader, 0, debugging_limit_num_variants)
 
-        rsid_group = next(rsid_group_reader)
+        rsid_group_exhausted = False
+        try:
+            rsid_group = next(rsid_group_reader)
+        except StopIteration:
+            rsid_group = None
+            rsid_group_exhausted = True
+            
         for cp_group in cp_group_reader:
-
             # Advance rsid_group until it is up to/past cp_group
-            while True:
+            while not rsid_group_exhausted:
                 if rsid_group[0]['chrom'] == cp_group[0]['chrom']:
                     rsid_is_not_behind = rsid_group[0]['pos'] >= cp_group[0]['pos']
                 else:
@@ -132,9 +137,13 @@ def run(argv:List[str]) -> None:
                     try:
                         rsid_group = next(rsid_group_reader)
                     except StopIteration:
+                        rsid_group = None
+                        rsid_group_exhausted = True
                         break
 
-            if rsid_group[0]['chrom'] == cp_group[0]['chrom'] and rsid_group[0]['pos'] == cp_group[0]['pos']:
+            if (not rsid_group_exhausted 
+                and rsid_group[0]['chrom'] == cp_group[0]['chrom']
+                and rsid_group[0]['pos'] == cp_group[0]['pos']) :
                 # we have rsids at this position!  will they match on ref/alt?
                 for cpra in cp_group:
                     rsids = [rsid['rsid'] for rsid in rsid_group if cpra['ref'] == rsid['ref'] and are_match(cpra['alt'], rsid['alt'])]
