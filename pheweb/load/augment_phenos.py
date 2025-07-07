@@ -1,4 +1,8 @@
-
+out_filepath = get_pheno_filepath('pheno_gz', pheno['phenocode'], must_exist=False)
+out_unzipped_filepath = get_tmp_path(out_filepath)
+...
+convert_VariantFile_to_IndexedVariantFile(out_unzipped_filepath, out_filepath)
+os.unlink(out_unzipped_filepath)
 from ..utils import PheWebError
 from ..file_utils import VariantFileReader, VariantFileWriter, get_filepath, get_pheno_filepath, with_chrom_idx, get_tmp_path, convert_VariantFile_to_IndexedVariantFile
 from .load_utils import parallelize_per_pheno, get_phenos_subset, get_phenolist

@@ -98,7 +98,7 @@ class AssocFileReader:
         self._pheno = pheno
 
 
-    def get_variants(self, minimum_maf=0, use_per_pheno_fields=False):
+    def get_variants(self, minimum_maf=0, use_per_pheno_fields=True):
         if use_per_pheno_fields:
             fieldnames_to_check = [fieldname for fieldname,fieldval in parse_utils.per_pheno_fields.items() if fieldval['from_assoc_files']]
         else:

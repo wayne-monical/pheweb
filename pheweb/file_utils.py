@@ -337,7 +337,7 @@ def read_maybe_gzip(filepath:Union[str,Path]):
 ## Writers
 
 @contextmanager
-def VariantFileWriter(filepath:str, allow_extra_fields:bool = True, use_gzip:bool = True):
+def VariantFileWriter(filepath:str, allow_extra_fields:bool = True, use_gzip:bool = False):
     '''
     Writes variants (represented by dictionaries) to an internal file.
 
