@@ -100,6 +100,14 @@ def get_region_info(matrix_reader, tree_for_chrom:Dict[str,IntervalTree], region
 
         for phenocode, pheno in variant['phenos'].items():
             assert isinstance(pheno['pval'], float)
+
+            # using SNP-level cases and control counts 
+            pheno = dict(pheno)  # Make a copy so we don't mutate the original
+            if 'num_cases' in variant:
+                pheno['num_cases'] = variant['num_cases']
+            if 'num_controls' in variant:
+                pheno['num_controls'] = variant['num_controls']
+
             for genename in genenames:
                 pheno_gene_pair = (phenocode, genename)
                 if pheno_gene_pair not in best_assoc_for_pheno_gene_pair or pheno['pval'] < best_assoc_for_pheno_gene_pair[pheno_gene_pair]['pval']:

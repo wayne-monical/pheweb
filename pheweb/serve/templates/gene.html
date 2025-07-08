@@ -39,6 +39,8 @@
               <tr>
                 <th>Top p-value in gene</th>
                 <th>Phenotype</th>
+                <th>Column 1 Name</th>
+                <th>Column 2 Name</th>
               </tr>
             </thead>
             <tbody>
@@ -85,6 +87,8 @@
   <tr style="background-color:lightblue">
     <td><%= (p.assoc.pval == 0) ? '≤1e-320' : p.assoc.pval.toExponential(1) %></td>
     <td><%= p.pheno.phenostring || p.pheno.phenocode %></td>
+    <td><%= p.assoc.column1_name || '' %></td>
+    <td><%= p.assoc.column2_name || '' %></td>
   </tr>
   <% } else { %>
   <tr onclick="window.location='{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= p.pheno.phenocode %>/gene/<%= gene_symbol %>'" style="cursor:pointer">
@@ -92,6 +96,8 @@
     <td><a style="color:black" href="{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= p.pheno.phenocode %>/gene/<%= gene_symbol %>">
         <%= p.pheno.phenostring || p.pheno.phenocode %>
     </a></td>
+    <td><%= p.assoc.column1_name || '' %></td>
+    <td><%= p.assoc.column2_name || '' %></td>
   </tr>
   <% } %>
 </script>
