@@ -161,6 +161,26 @@ per_assoc_fields: Dict[str,Dict[str,Any]] = {
         'nullable': True,
         'display': 'Tstat',
     },
+     'num_cases': {
+        'aliases': ['NS.CASE', 'N_cases'],
+        'type': int,
+        'nullable': True,
+        'range': [0, None],
+        'display': '#cases',
+    },
+    'num_controls': {
+        'aliases': ['NS.CTRL', 'N_controls'],
+        'type': int,
+        'nullable': True,
+        'range': [0, None],
+        'display': '#controls',
+    },
+    'num_samples': {
+        'aliases': ['NS', 'N'],
+        'type': int,
+        'nullable': True,
+        'range': [0, None],
+        'display': '#samples'},
 }
 
 per_pheno_fields: Dict[str,Dict[str,Any]] = {

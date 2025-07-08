@@ -1,0 +1,20 @@
+======= Exception ====
+The filepath '/home/wmonical/pheweb/pheno-list.json' does not exist.
+
+======= Traceback ====
+Traceback (most recent call last):
+  File "/home/wmonical/pheweb/pheweb/command_line.py", line 134, in main
+    run(sys.argv[1:])
+  File "/home/wmonical/pheweb/pheweb/command_line.py", line 124, in run
+    handlers[subcommand](argv[1:])
+  File "/home/wmonical/pheweb/pheweb/command_line.py", line 62, in f
+    module_run(argv)
+  File "/home/wmonical/pheweb/pheweb/load/process_assoc_files.py", line 53, in run
+    module_run(script_parts[1:])
+  File "/home/wmonical/pheweb/pheweb/load/phenolist/__init__.py", line 583, in run
+    subcommand_handlers[args.subcommand](args)
+  File "/home/wmonical/pheweb/pheweb/load/phenolist/__init__.py", line 483, in f
+    phenolist = load_phenolist(filepath)
+  File "/home/wmonical/pheweb/pheweb/load/phenolist/__init__.py", line 378, in load_phenolist
+    raise PheWebError("The filepath {!r} does not exist.".format(filepath))
+pheweb.utils.PheWebError: The filepath '/home/wmonical/pheweb/pheno-list.json' does not exist.

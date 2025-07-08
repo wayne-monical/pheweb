@@ -65,6 +65,10 @@ class PhenoReader:
         for assoc_file in assoc_files:
             ar = AssocFileReader(assoc_file['filepath'], self._pheno)
             v = next(ar.get_variants())
+
+            # debugging
+            print("DEBUG: v keys:", v.keys())  
+
             assoc_file['chrom'], assoc_file['pos'] = v['chrom'], v['pos']
             assoc_file['fields'] = list(v)
         assert boltons.iterutils.same(af['fields'] for af in assoc_files)
@@ -98,7 +102,7 @@ class AssocFileReader:
         self._pheno = pheno
 
 
-    def get_variants(self, minimum_maf=0, use_per_pheno_fields=True):
+    def get_variants(self, minimum_maf=0, use_per_pheno_fields=False):
         if use_per_pheno_fields:
             fieldnames_to_check = [fieldname for fieldname,fieldval in parse_utils.per_pheno_fields.items() if fieldval['from_assoc_files']]
         else:
@@ -117,6 +121,8 @@ class AssocFileReader:
             else: raise PheWebError("Cannot guess what delimiter to use to parse the header line {!r} in file {!r}".format(header_line, self.filepath))
 
             colnames = [colname.strip('"\' ').lower() for colname in header_line.rstrip('\n\r').split(delimiter)]
+
+            
             colidx_for_field = self._parse_header(colnames, fieldnames_to_check)
             # Special case for `MARKER_ID`
             if 'marker_id' not in colnames:
