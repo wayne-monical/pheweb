@@ -39,8 +39,8 @@
               <tr>
                 <th>Top p-value in gene</th>
                 <th>Phenotype</th>
-                <th>Column 1 Name</th>
-                <th>Column 2 Name</th>
+                <th>Number of Cases</th>
+                <th>Number of Controls</th>
               </tr>
             </thead>
             <tbody>
@@ -64,7 +64,10 @@
 {% endfor %}
 <div class="row">
     <div class="pheno-info col-xs-12">
-        {% if 'num_cases' in pheno %}
+        {% set assoc = significant_phenos[0].assoc if significant_phenos and significant_phenos[0].assoc is defined else None %}
+        {% if assoc and assoc.num_cases is defined and assoc.num_controls is defined %}
+          <p><b>{{ assoc.num_cases }}</b> cases, <b>{{ assoc.num_controls }}</b> controls.</p>
+        {% elif 'num_cases' in pheno %}
           <p><b>{{ pheno.num_cases }}</b> cases, <b>{{ pheno.num_controls }}</b> controls.</p>
         {% elif 'num_samples' in pheno %}
           <p><b>{{ pheno.num_samples }}</b> samples</p>
@@ -87,8 +90,8 @@
   <tr style="background-color:lightblue">
     <td><%= (p.assoc.pval == 0) ? '≤1e-320' : p.assoc.pval.toExponential(1) %></td>
     <td><%= p.pheno.phenostring || p.pheno.phenocode %></td>
-    <td><%= p.assoc.column1_name || '' %></td>
-    <td><%= p.assoc.column2_name || '' %></td>
+    <td><%= p.assoc.num_cases || '' %></td>
+    <td><%= p.assoc.num_controls || '' %></td>
   </tr>
   <% } else { %>
   <tr onclick="window.location='{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= p.pheno.phenocode %>/gene/<%= gene_symbol %>'" style="cursor:pointer">
@@ -96,8 +99,8 @@
     <td><a style="color:black" href="{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= p.pheno.phenocode %>/gene/<%= gene_symbol %>">
         <%= p.pheno.phenostring || p.pheno.phenocode %>
     </a></td>
-    <td><%= p.assoc.column1_name || '' %></td>
-    <td><%= p.assoc.column2_name || '' %></td>
+    <td><%= p.assoc.num_cases || '' %></td>
+    <td><%= p.assoc.num_controls || '' %></td>
   </tr>
   <% } %>
 </script>
