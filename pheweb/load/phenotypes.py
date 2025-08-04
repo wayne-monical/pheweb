@@ -25,9 +25,11 @@ def get_phenotypes_including_top_variants() -> Iterator[Dict[str,Any]]:
             'alt': top_variant['alt'],
             'rsids': top_variant['rsids'],
             'num_peaks': num_peaks,
-            'gc_lambda_hundred': gc_lambda_hundred,  # numbers in keys break streamtable
+            'gc_lambda_hundred': gc_lambda_hundred,  # numbers in keys break streamtable,
+            'num_cases': top_variant['num_cases'] if 'num_cases' in top_variant else None,
+            'num_controls': top_variant['num_controls'] if 'num_controls' in top_variant else None
         }
-        for key in ['num_samples', 'num_controls', 'num_cases', 'category', 'phenostring']:
+        for key in ['category', 'phenostring']:
             if key in pheno: ret[key] = pheno[key]
         if isinstance(ret['nearest_genes'], list): ret['nearest_genes'] = ','.join(ret['nearest_genes'])
         yield ret
