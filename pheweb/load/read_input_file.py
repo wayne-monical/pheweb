@@ -66,9 +66,6 @@ class PhenoReader:
             ar = AssocFileReader(assoc_file['filepath'], self._pheno)
             v = next(ar.get_variants())
 
-            # debugging
-            print("DEBUG: v keys:", v.keys())  
-
             assoc_file['chrom'], assoc_file['pos'] = v['chrom'], v['pos']
             assoc_file['fields'] = list(v)
         assert boltons.iterutils.same(af['fields'] for af in assoc_files)
