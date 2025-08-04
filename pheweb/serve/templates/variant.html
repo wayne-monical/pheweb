@@ -98,9 +98,8 @@
     <td><a style="color:black" href="{{ url_for('.pheno_page', phenocode='').rstrip('/') }}/<%= d.phenocode %>"><%= d.phenostring || d.phenocode %></a></td>
     <td><%= (d.pval==0) ? '≤1e-320' : d.pval.toExponential(1) %></td>
     <td><%= (d.beta!==undefined) ? d.beta.toPrecision(2) : "" %><%= (d.sebeta!==undefined) ? " ("+d.sebeta.toPrecision(2)+")" : "" %></td>
-    <td><%= d.num_cases %></td>
-    <td><%= d.num_controls %></td>
-    </td>
+    <td><%= d.num_cases ? d.num_cases.toLocaleString() : "" %></td>
+    <td><%= d.num_controls ? d.num_controls.toLocaleString() : "" %></td>
   </tr>
 </script>
 
