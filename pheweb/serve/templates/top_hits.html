@@ -64,6 +64,8 @@
           <th>Top variant in locus</th>
           <th>P-value</th>
           <th>MAF</th>
+          <th>Number of Cases</th>
+          <th>Number of Controls</th>
           <th class="nearest_genes_col">Nearest Gene(s)</th>
         </tr>
       </thead>
@@ -85,6 +87,8 @@
     </a></td>
     <td><%= (h.pval == 0) ? '≤1e-320' : h.pval.toExponential(1) %></td>
     <td><%= (h.maf)? h.maf.toPrecision(2) : (h.af)? Math.min(h.af, 1-h.af).toPrecision(2) : (h.ac)? h.ac : "" %></td>
+    <td><%= h.num_cases.toLocaleString() %></td>
+    <td><%= h.num_controls.toLocaleString() %></td>
     <td class="nearest_genes_col">
       <% var ngs = h.nearest_genes.split(","); ngs.forEach(function(g, i) { %>
       <a style="color:black" href="{{ url_for('.region_page', phenocode='', region='').rstrip('/') }}/<%= h.phenocode %>/gene/<%= g %>?include=<%= h.chrom %>-<%= h.pos %>">
