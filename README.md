@@ -1,17 +1,11 @@
-For a list of available instances of PheWeb, navigate [here](http://pheweb.sph.umich.edu).
-For a walk-through demo see [here](etc/demo.md#demo-navigating-pheweb).
-If you have questions or comments, check out our [Google Group](https://groups.google.com/g/pheweb-umich).
+This is version of Pheweb is edited by Wayne Monical in collaboration with Atlas Khan, PhD in the Kiryluk lab at Columbia University. This version of Pheweb displays different sample counts across SNPs and phenotypes. For more information about Pheweb, please see the original repository [here](https://github.com/statgen/pheweb).
 
 ![screenshot of PheWAS plot](https://cloud.githubusercontent.com/assets/862089/25474725/3edbe256-2b02-11e7-8abb-0ca26d406b11.png)
 
-# How to Cite PheWeb
-If you use the PheWeb code base for your work, please cite our paper:
+## How to Cite PheWeb
+If you use the PheWeb code base for your work, please cite the paper fromn the original repository:
 
 Gagliano Taliun, S.A., VandeHaar, P. et al. Exploring and visualizing large-scale genetic associations by using PheWeb. *Nat Genet* 52, 550–552 (2020).
-
-# How to Build a PheWeb for your Data
-
-If this is broken, [open an issue on github](https://github.com/statgen/pheweb/issues/new) and hopefully I can help.
 
 ### 1. Install PheWeb
 
@@ -19,7 +13,7 @@ If this is broken, [open an issue on github](https://github.com/statgen/pheweb/i
 pip3 install pheweb
 ```
 
-- If that doesn't work, follow [the detailed install instructions](etc/detailed-install-instructions.md#detailed-install-instructions).
+- If that doesn't work, follow [the detailed install instructions](etc/detailed-install-instructions.md#detailed-install-instructions) or [the detailed windows instructions](etc/detailed-windows-instructions.md).
 
 ### 2. Create a directory and `config.py` for your new dataset
 
@@ -50,6 +44,8 @@ The file must have columns for:
 | reference allele   | `ref`   | `reference`                | must match reference genome |
 | alternate allele   | `alt`   | `alternate`                | anything |
 | p-value            | `pval`  | `pvalue`, `p`, `p.value`   | number in [0,1] |
+| number of controls | `num_controls` | `ns.ctrl`, `n_controls` | integer|
+| number of cases    | `num_cases`    | `ns.case`, `n_cases`    | integer |
 
 
 You may also have columns for:
@@ -65,9 +61,7 @@ You may also have columns for:
 | standard error of effect size          | `sebeta`       | `se`                       | number |
 | odds ratio (of alternate allele)       | `or`           |                            | number |
 | R2                                     | `r2`           |                            | number |
-| number of samples                      | `num_samples`  | `ns`, `n`                  | integer, must be the same for every variant in its phenotype |
-| number of controls                     | `num_controls` | `ns.ctrl`, `n_controls`    | integer, must be the same for every variant in its phenotype |
-| number of cases                        | `num_cases`    | `ns.case`, `n_cases`       | integer, must be the same for every variant in its phenotype |
+
 
 
 Column names are case-insensitive.  If your file has a different column name, set `field_aliases = {"column_name": "field_name"}` in `config.py`.  For example, `field_aliases = {'P_BOLT_LMM_INF': 'pval', 'NSAMPLES': 'num_samples'}`.
@@ -89,8 +83,27 @@ Inside of your data directory, you need a file named `pheno-list.json` that look
  {
   "assoc_files": ["/home/peter/data/a1c.X.gz","/home/peter/data/a1c.autosomal.gz"],
   "phenocode": "A1C"
- }
-]
+ }]
+```
+
+Or this
+```json
+[{
+    "assoc_files": [
+      "clean_data/dermatophytosis__dermatomycosis.csv"
+    ],
+    "category": "Infectious diseases",
+    "phenocode": "110.0",
+    "phenostring": "Dermatophytosis / Dermatomycosis"
+  },
+  {
+    "assoc_files": [
+      "clean_data/dermatophytosis.csv"
+    ],
+    "category": "Infectious diseases",
+    "phenocode": "110.1",
+    "phenostring": "Dermatophytosis"
+  }]
 ```
 
 Each phenotype needs `assoc_files` (a list of paths to association files) and `phenocode` (a string representing your phenotype that is used in filenames and URLs, comprised of `[A-Za-z0-9_~-]`).
@@ -99,7 +112,6 @@ If you want, you can also include:
 
 - `phenostring` (string): a name for the phenotype. Shown in tables and tooltips and page headers.
 - `category` (string): groups together phenotypes in the PheWAS plot. Shown in tables and tooltips.
-- `num_cases`, `num_controls`, and/or `num_samples` (number): if your input data only has `AC` or `MAC`, this will be used to calculated `AF` or `MAF`.  Shown in tooltips.  If your input data has correctly-named columns for these, the command `pheweb phenolist read-info-from-association-files` will add them into your existing `pheno-list.json`.
 - anything else you want, but you'll have to modify templates to use it.
 
 You can use a csv by running:
