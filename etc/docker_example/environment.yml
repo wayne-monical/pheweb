@@ -1,0 +1,8 @@
+name: phewas_docker
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10.0
+  - bioconda::pysam=0.22.1
+prefix: /home/wmonical/miniconda3/envs/phewas_docker
