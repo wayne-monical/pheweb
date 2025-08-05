@@ -18,7 +18,7 @@ def get_hits(pheno:Dict[str,Any]) -> Iterator[Dict[str,Any]]:
     for v in variants:
         if v['pval'] <= conf.get_top_hits_pval_cutoff() and 'peak' in v:
             v['phenocode'] = pheno['phenocode']
-            for k in ['phenostring', 'category']:
+            for k in ['phenostring', 'category', 'num_cases', 'num_controls']:
                 if k in pheno:
                     v[k] = pheno[k]
             yield v

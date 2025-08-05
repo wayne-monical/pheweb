@@ -193,6 +193,8 @@
           <th>MAF</th>
           <th>P-value</th>
           <th>Effect Size (se)</th>
+          <th>Number of Cases</th>
+          <th>Number of Controls</th>
         </tr>
       </thead>
       <tbody>
@@ -234,6 +236,8 @@
 <td><%= (v.maf)? v.maf.toPrecision(2) : (v.af)? Math.min(v.af, 1-v.af).toPrecision(2) : (v.ac)? v.ac : "" %></td>
 <td><%= (v.pval==0) ? '≤1e-320' : v.pval.toExponential(1) %></td>
 <td><%= (v.beta) ? v.beta.toPrecision(2) : "" %><%= (v.sebeta) ? " ("+v.sebeta.toPrecision(2)+")" : "" %></td>
+<td><%= v.num_cases ? v.num_cases.toLocaleString() : "" %></td>
+<td><%= v.num_controls ? v.num_controls.toLocaleString() : "" %></td>
 </tr>
 </script>
 {% endblock %}
