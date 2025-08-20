@@ -55,6 +55,8 @@
           <th>Number of Cases</th>
           <th>Number of Controls</th>
           <th class="nearest_genes_col">Nearest Gene(s)</th>
+          <th> Custom Reference Allele </th>
+          <th> Custom Risk Allele </th>
         </tr>
       </thead>
       <tbody>
@@ -90,6 +92,8 @@
         <i><%= g %></i></a><%= (i+1 !== ngs.length)?',':'' %>
       <% }) %>
     </td>
+    <td><%= h.custom_reference_allele %></td>
+    <td><%= h.custom_risk_allele %></td>
   </tr>
 </script>
 

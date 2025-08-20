@@ -71,6 +71,18 @@ per_variant_fields: Dict[str,Dict[str,Any]] = {
     'consequence': {
         'from_assoc_files': False,
     },
+     'custom_reference_allele': {
+        'aliases': ['custom_ref'],
+        'required': False,
+        'tooltip_underscoretemplate': False,
+        'tooltip_lztemplate': False,
+    },
+     'custom_risk_allele': {
+        'aliases': ['custom_risk'],
+        'required': False,
+        'tooltip_underscoretemplate': False,
+        'tooltip_lztemplate': False,
+    },
 }
 
 per_assoc_fields: Dict[str,Dict[str,Any]] = {
