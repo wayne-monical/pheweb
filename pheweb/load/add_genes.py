@@ -2,7 +2,7 @@
 '''
 This script takes a file with the columns [chrom, pos, ...] (but no headers) and adds the field `gene`.
 '''
-
+from .. import conf
 from ..utils import get_gene_tuples
 from ..file_utils import VariantFileReader, VariantFileWriter, get_filepath
 from .load_utils import mtime
@@ -86,9 +86,21 @@ def run(argv:List[str]) -> None:
         print('Annotate the sites file with nearest genes.  Fetches the relevant version of Gencode if not already present.')
         exit(1)
 
+    out_filepath = get_filepath('sites', must_exist=False)
+
+    # Config-based bypass
+
+    if conf.get_prebuilt_sites_bool():
+        # You can set the source file path here, or make it configurable
+        bypass_file = conf.get_prebuilt_sites_path()
+        import shutil
+        shutil.copyfile(bypass_file, out_filepath)
+        print(f'add-genes bypassed by config: Copied {bypass_file} to {out_filepath}')
+        return
+
+
     input_filepath = get_filepath('sites-rsids')
     genes_filepath = get_filepath('genes', must_exist=False)
-    out_filepath = get_filepath('sites', must_exist=False)
 
     if not os.path.exists(genes_filepath):
         print('Fetching genes...')
