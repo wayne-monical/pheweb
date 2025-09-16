@@ -56,3 +56,46 @@ function populate_streamtable(phenotypes) {
 
     });
 }
+
+// Simple stream table: just returns text for each item
+function populate_simple_streamtable(items) {
+    $(function() {
+        var view = function(item) {
+            return '<tr>' +
+                '<td>' + (item.population || '') + '</td>' +
+                '<td>' + (item.chr || '') + '</td>' +
+                '<td>' + (item.snp || '') + '</td>' +
+                '<td>' + (item.rsid || '') + '</td>' +
+                '<td>' + (item.risk_ref || '') + '</td>' +
+                '<td>' + (item.locus || '') + '</td>' +
+                '<td>' + (item.beta || '') + '</td>' +
+                '<td>' + (item.se || '') + '</td>' +
+                '<td>' + (item.p || '') + '</td>' +
+            '</tr>';
+        };
+        var options = {
+            view: view,
+            search_box: '#simple-search',
+            pagination: {
+                span: 5,
+                next_text: 'Next',
+                prev_text: 'Previous',
+                per_page_select: false,
+                per_page_opts: [100]
+            }
+        };
+        // Clear and set table header
+        $('#simple_stream_table thead').html('<tr>' +
+            '<th>Population</th>' +
+            '<th>Chr</th>' +
+            '<th>SNP</th>' +
+            '<th>RSID</th>' +
+            '<th>Risk/Ref</th>' +
+            '<th>Locus</th>' +
+            '<th>Beta</th>' +
+            '<th>SE</th>' +
+            '<th>P</th>' +
+        '</tr>');
+        $('#simple_stream_table').stream_table(options, items);
+    });
+}

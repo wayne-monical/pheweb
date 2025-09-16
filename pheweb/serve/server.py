@@ -187,6 +187,12 @@ def api_pheno_filtered(phenocode):
 def api_top_hits():
     return send_file(get_filepath('top-phenotype-for-each-variant'))
 
+@app.route('/api/uti_gwas.json')
+@check_auth
+def api_uti_list():
+    return send_file(get_filepath('uti-list'))
+
+
 @bp.route('/top_hits')
 @check_auth
 def top_hits_page():
